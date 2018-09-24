@@ -2,7 +2,7 @@ export const GET_DECKS = 'GET_DECKS';
 export const ADD_QUESTION = 'ADD_QUESTION';
 export const ADD_DECK = 'ADD_DECK';
 
-export function getDecks(decks) {
+export function retrieveDecks(decks) {
     return {
         type: GET_DECKS,
         decks

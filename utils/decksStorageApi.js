@@ -29,7 +29,7 @@ const mockDeck = {
 };
 
 // retrieve decks
-function getDecks() {
+export function getDecks() {
     return AsyncStorage.getItem(DECKS_STORAGE_KEY)
         .then(( results ) => {
             if (results) {
