@@ -5,6 +5,7 @@ import { getDecks } from '../utils/decksStorageApi';
 import { connect } from 'react-redux';
 import randomColor from 'randomcolor';
 
+
 class DeckList extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
@@ -15,7 +16,9 @@ class DeckList extends React.Component {
     render() {
         const { decks } = this.props;
         return (
-            <View style={styles.container}>
+            <View
+                style={styles.container}
+            >
                 {
                     decks ? (
                         <ScrollView>
