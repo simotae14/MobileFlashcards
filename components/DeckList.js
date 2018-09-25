@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
         backgroundColor: '#ffe',
-        paddingTop: 50
+        paddingTop: 20
     },
     deckItem: {
         justifyContent: 'space-around',

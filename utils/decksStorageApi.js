@@ -45,3 +45,24 @@ export function getDecks() {
 export function addDeckApi(newDeck) {
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(newDeck));
 }
+
+// add a new Card
+export function addCardToDeck(newCard) {
+  const { title, question, answer } = newCard;
+  return AsyncStorage.getItem(DECKS_STORAGE_KEY)
+    .then((results) => {
+      return JSON.parse(results)[title]
+    })
+    .then((card) => {
+      const questions = card.questions.concat({
+        question,
+        answer
+      });
+      AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({
+        [title]: {
+          title,
+          questions
+        }
+      }));
+    });
+}

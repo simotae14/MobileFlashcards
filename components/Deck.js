@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform, TouchableOpacity, TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet, Platform, TouchableOpacity, TouchableNativeFeedback, ScrollView } from 'react-native';
 import randomColor from 'randomcolor';
 import { lightPurp, orange } from '../utils/colors';
 
@@ -16,62 +16,36 @@ class Deck extends React.Component {
             <View
                 style={styles.container}
             >
-                <View
-                    style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
-                >
-                    <Text
-                        style={styles.deckText}
+                <ScrollView>
+                    <View
+                        style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
                     >
-                        { deck.title }
-                    </Text>
-                    <Text
-                        style={styles.deckNumberCards}
-                    >
+                        <Text
+                            style={styles.deckText}
+                        >
+                            { deck.title }
+                        </Text>
+                        <Text
+                            style={styles.deckNumberCards}
+                        >
 
-                    </Text>
-                </View>
+                        </Text>
+                    </View>
 
-                {
-                    Platform.OS === 'ios' ? (
-                        <View>
-                            <TouchableOpacity
-                                style={[styles.btnCustom, styles.addBtn]}
-                            >
-                                <Text
-                                    style={styles.addBtnTxt}
-                                >
-                                    Add Card
-                                </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.btnCustom, styles.startBtn]}
-                            >
-                                <Text
-                                    style={styles.startQuizBtn}
-                                >
-                                    Start Quiz
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                    ) : (
-                        <View>
-                            <TouchableNativeFeedback
-                                background={TouchableNativeFeedback.SelectableBackground()}
-                            >
-                                <View
+                    {
+                        Platform.OS === 'ios' ? (
+                            <View>
+                                <TouchableOpacity
                                     style={[styles.btnCustom, styles.addBtn]}
+                                    onPress={() => this.props.navigation.navigate('NewCard', { title: deck.title })}
                                 >
                                     <Text
                                         style={styles.addBtnTxt}
                                     >
                                         Add Card
                                     </Text>
-                                </View>
-                            </TouchableNativeFeedback>
-                            <TouchableNativeFeedback
-                                background={TouchableNativeFeedback.SelectableBackground()}
-                            >
-                                <View
+                                </TouchableOpacity>
+                                <TouchableOpacity
                                     style={[styles.btnCustom, styles.startBtn]}
                                 >
                                     <Text
@@ -79,11 +53,41 @@ class Deck extends React.Component {
                                     >
                                         Start Quiz
                                     </Text>
-                                </View>
-                            </TouchableNativeFeedback>
-                        </View>
-                    )
-                }
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <View>
+                                <TouchableNativeFeedback
+                                    background={TouchableNativeFeedback.SelectableBackground()}
+                                    onPress={() => this.props.navigation.navigate('NewCard', { title: deck.title })}
+                                >
+                                    <View
+                                        style={[styles.btnCustom, styles.addBtn]}
+                                    >
+                                        <Text
+                                            style={styles.addBtnTxt}
+                                        >
+                                            Add Card
+                                        </Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                                <TouchableNativeFeedback
+                                    background={TouchableNativeFeedback.SelectableBackground()}
+                                >
+                                    <View
+                                        style={[styles.btnCustom, styles.startBtn]}
+                                    >
+                                        <Text
+                                            style={styles.startQuizBtn}
+                                        >
+                                            Start Quiz
+                                        </Text>
+                                    </View>
+                                </TouchableNativeFeedback>
+                            </View>
+                        )
+                    }
+                </ScrollView>
             </View>
         )
     }
@@ -96,16 +100,17 @@ const styles = StyleSheet.create({
         flex: 1,
         alignSelf: 'stretch',
         backgroundColor: '#ffe',
-        paddingTop: 20
+        paddingTop: 20,
+        paddingBottom: 5
     },
     deckItem: {
         justifyContent: 'space-around',
         alignItems: 'center',
-        minHeight: 350,
+        minHeight: 270,
         borderWidth: 1,
         borderRadius: 2,
         borderColor: '#ddd',
-        borderBottomWidth: 0,
+        borderBottomWidth: 1,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
@@ -113,7 +118,7 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginLeft: 5,
         marginRight: 5,
-        marginBottom: 10,
+        marginBottom: 10
     },
     deckText: {
         color: 'white',
@@ -141,7 +146,8 @@ const styles = StyleSheet.create({
         fontSize: 30
     },
     startBtn: {
-        borderColor: orange
+        borderColor: orange,
+        marginBottom: 20
     },
     startQuizBtn: {
         color: orange,

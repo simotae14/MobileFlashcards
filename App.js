@@ -6,6 +6,7 @@ import reducer from './reducers/index';
 import DeckList from './components/DeckList';
 import NewDeck from './components/NewDeck';
 import Deck from './components/Deck';
+import NewCard from './components/NewCard';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { purple, white } from './utils/colors';
@@ -71,6 +72,15 @@ const FlashcardsNavigator = StackNavigator({
   },
   NewDeck: {
     screen: NewDeck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  NewCard: {
+    screen: NewCard,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {
