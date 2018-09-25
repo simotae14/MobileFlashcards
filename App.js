@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, StatusBar, View } from 'react-native';
+import { StyleSheet, StatusBar, View, Platform } from 'react-native';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './reducers/index';
@@ -7,7 +7,7 @@ import DeckList from './components/DeckList';
 import NewDeck from './components/NewDeck';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
-import { blue } from './utils/colors';
+import { purple, white } from './utils/colors';
 import { Constants } from 'expo';
 
 function FlashcardsStatusBar ({backgroundColor, ...props}) {
@@ -34,6 +34,23 @@ const Tabs = TabNavigator({
           tabBarIcon: ({ tintColor }) => <Ionicons name='ios-add-circle-outline' size={30} color={tintColor} />
       }
   }
+}, {
+  tabBarOptions: {
+    activeTintColor: Platform.OS === 'ios' ? purple : white,
+    showIcon: true,
+    showLabel: true,
+    style: {
+      height: 70,
+      backgroundColor: Platform.OS === 'ios' ? white : purple,
+      shadowColor: 'rgba(0, 0, 0, 0.24)',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
+      shadowRadius: 6,
+      shadowOpacity: 1
+    }
+  }
 });
 
 const FlashcardsNavigator = StackNavigator({
@@ -53,7 +70,7 @@ export default class App extends React.Component {
         //style={{flex: 1}}
           style={styles.container}
         >
-          <FlashcardsStatusBar backgroundColor={blue} barStyle='light-content' />
+          <FlashcardsStatusBar backgroundColor={purple} barStyle='light-content' />
           <FlashcardsNavigator />
         </View>
       </Provider>
