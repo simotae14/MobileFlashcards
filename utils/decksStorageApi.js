@@ -40,3 +40,8 @@ export function getDecks() {
             return mockDeck;
         });
 }
+
+// add a new deck
+export function addDeckApi(newDeck) {
+  return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify(newDeck));
+}

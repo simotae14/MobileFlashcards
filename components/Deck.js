@@ -27,7 +27,7 @@ class Deck extends React.Component {
                     <Text
                         style={styles.deckNumberCards}
                     >
-                        { deck.questions.length } cards
+
                     </Text>
                 </View>
 

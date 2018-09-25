@@ -2,8 +2,9 @@ import React, { Fragment } from 'react';
 import { Text, View, TextInput, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { blue, orange } from '../utils/colors';
 import { connect } from 'react-redux';
-import Toast, {DURATION} from 'react-native-easy-toast';
-
+import Toast from 'react-native-easy-toast';
+import { addDeck } from '../actions';
+import { addDeckApi } from '../utils/decksStorageApi';
 class NewDeck extends React.Component {
     constructor(props) {
         super(props);
@@ -11,13 +12,29 @@ class NewDeck extends React.Component {
     }
     handleSubmitDeck = () => {
         const { deckName } = this.state;
-        const { decks } = this.props;
+        const { decks, dispatch } = this.props;
 
         // check if the user entered a value, if not show a toast message
         if (!deckName || deckName.trim() === '') {
             this.refs.toast.show(<View><Text>The Deck name need a value!</Text></View>, 500);
         } else if (decks[deckName]) {
             this.refs.toast.show(<View><Text>This Deck name is already in our deck list!</Text></View>, 500);
+        } else {
+            const newDeckObject = {
+                [deckName]: {
+                    title: deckName,
+                    questions: []
+                }
+            };
+
+            // add the new deck into the redux state
+            dispatch(addDeck(newDeckObject));
+            // add the new deck in the AsyncStorage
+            addDeckApi(newDeckObject);
+            this.props.navigation.navigate('Deck', { deck: newDeckObject[deckName] } );
+            this.setState({
+                deckName: ''
+            });
         }
 
     }
