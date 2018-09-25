@@ -68,6 +68,15 @@ const FlashcardsNavigator = StackNavigator({
         backgroundColor: purple,
       }
     }
+  },
+  NewDeck: {
+    screen: NewDeck,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
   }
 });
 

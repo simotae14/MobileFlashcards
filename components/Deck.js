@@ -129,12 +129,6 @@ const styles = StyleSheet.create({
         minHeight: 50,
         borderWidth: 2,
         borderRadius: 2,
-        borderColor: '#000',
-        //shadowColor: '#000',
-        //shadowOffset: { width: 0, height: 1 },
-        //shadowOpacity: 0.8,
-        //shadowRadius: 2,
-        //elevation: 1,
         marginLeft: 5,
         marginRight: 5,
         marginBottom: 10
