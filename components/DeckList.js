@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
 import { retrieveDecks } from '../actions';
 import { getDecks } from '../utils/decksStorageApi';
 import { connect } from 'react-redux';
@@ -24,23 +24,44 @@ class DeckList extends React.Component {
                         <ScrollView>
                             {
                                 Object.values(decks).map((deck) => {
-                                    return (
-                                        <View
-                                            key={deck.title}
-                                            style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
-                                        >
-                                            <Text
-                                                style={styles.deckText}
+                                    return Platform.OS === 'ios'
+                                        ? (
+                                            <TouchableOpacity
+                                                key={deck.title}
+                                                style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
                                             >
-                                                { deck.title }
-                                            </Text>
-                                            <Text
-                                                style={styles.deckNumberCards}
+                                                <Text
+                                                    style={styles.deckText}
+                                                >
+                                                    { deck.title }
+                                                </Text>
+                                                <Text
+                                                    style={styles.deckNumberCards}
+                                                >
+                                                    { deck.questions.length } cards
+                                                </Text>
+                                            </TouchableOpacity>
+                                        ) : (
+                                            <TouchableNativeFeedback
+                                                key={deck.title}
+                                                background={TouchableNativeFeedback.SelectableBackground()}
                                             >
-                                                { deck.questions.length } cards
-                                            </Text>
-                                        </View>
-                                    );
+                                                <View
+                                                    style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
+                                                >
+                                                    <Text
+                                                        style={styles.deckText}
+                                                    >
+                                                        { deck.title }
+                                                    </Text>
+                                                    <Text
+                                                        style={styles.deckNumberCards}
+                                                    >
+                                                        { deck.questions.length } cards
+                                                    </Text>
+                                                </View>
+                                            </TouchableNativeFeedback>
+                                        );
                                 })
                             }
                         </ScrollView>

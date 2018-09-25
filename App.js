@@ -15,9 +15,8 @@ function FlashcardsStatusBar ({backgroundColor, ...props}) {
     <View style={{backgroundColor, height: Constants.statusBarHeight }}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
-  )
+  );
 }
-
 
 const Tabs = TabNavigator({
   DeckList: {
@@ -57,7 +56,7 @@ const FlashcardsNavigator = StackNavigator({
   Home: {
       screen: Tabs,
       navigationOptions: {
-        header: null,
+        header: null
       }
   }
 });
