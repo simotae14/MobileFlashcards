@@ -5,7 +5,6 @@ import { getDecks } from '../utils/decksStorageApi';
 import { connect } from 'react-redux';
 import randomColor from 'randomcolor';
 
-
 class DeckList extends React.Component {
     componentDidMount() {
         const { dispatch } = this.props;
@@ -13,6 +12,7 @@ class DeckList extends React.Component {
         getDecks()
             .then((results) => dispatch(retrieveDecks(results)));
     }
+    // navigate to the
     render() {
         const { decks } = this.props;
         return (
@@ -29,6 +29,7 @@ class DeckList extends React.Component {
                                             <TouchableOpacity
                                                 key={deck.title}
                                                 style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
+                                                onPress={() => this.props.navigation.navigate('Deck', { deck } )}
                                             >
                                                 <Text
                                                     style={styles.deckText}
@@ -45,6 +46,7 @@ class DeckList extends React.Component {
                                             <TouchableNativeFeedback
                                                 key={deck.title}
                                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                                onPress={() => this.props.navigation.navigate('Deck', { deck } )}
                                             >
                                                 <View
                                                     style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
         elevation: 1,
         marginLeft: 5,
         marginRight: 5,
-        marginBottom: 10,
+        marginBottom: 10
     },
     deckText: {
         color: 'white',
