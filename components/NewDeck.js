@@ -1,21 +1,25 @@
 import React, { Fragment } from 'react';
-import { Text, View, TextInput, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet, KeyboardAvoidingView, ToastAndroid } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, TouchableNativeFeedback, Platform, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { blue, orange } from '../utils/colors';
 import { connect } from 'react-redux';
+import Toast, {DURATION} from 'react-native-easy-toast';
 
 class NewDeck extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { question: '' };
+        this.state = { deckName: '' };
     }
     handleSubmitDeck = () => {
-        const { question } = this.state;
+        const { deckName } = this.state;
         const { decks } = this.props;
 
         // check if the user entered a value, if not show a toast message
-        if (!question) {
-            console.log('hello world!');
+        if (!deckName || deckName.trim() === '') {
+            this.refs.toast.show(<View><Text>The Deck name need a value!</Text></View>, 500);
+        } else if (decks[deckName]) {
+            this.refs.toast.show(<View><Text>This Deck name is already in our deck list!</Text></View>, 500);
         }
+
     }
     render() {
         return (
@@ -24,14 +28,14 @@ class NewDeck extends React.Component {
                 behavior="padding"
                 enabled
             >
-                <Text style={styles.questionTitle}>
+                <Text style={styles.deckNameTitle}>
                     What is the title of your new deck?
                 </Text>
                 <TextInput
-                    style={styles.questionText}
-                    onChangeText={(question) => this.setState({question})}
-                    value={this.state.question}
-                    placeholder = "Add the Question"
+                    style={styles.deckNameText}
+                    onChangeText={(deckName) => this.setState({deckName})}
+                    value={this.state.deckName}
+                    placeholder = "Add the deck name"
                     placeholderTextColor = "#333"
                 />
                 {
@@ -62,6 +66,7 @@ class NewDeck extends React.Component {
                         <Fragment>
                             <TouchableNativeFeedback
                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                onPress={this.handleSubmitDeck}
                             >
                                 <View
                                     style={[styles.btnCustom, styles.submitBtn]}
@@ -91,6 +96,16 @@ class NewDeck extends React.Component {
 
                     )
                 }
+                <Toast
+                    ref="toast"
+                    style={{backgroundColor:'red'}}
+                    position='top'
+                    positionValue={100}
+                    fadeInDuration={750}
+                    fadeOutDuration={1000}
+                    opacity={0.8}
+                    textStyle={{color:'red'}}
+                />
             </KeyboardAvoidingView>
         );
     }
@@ -115,11 +130,11 @@ const styles = StyleSheet.create({
         paddingLeft: 25,
         paddingRight: 25
     },
-    questionTitle: {
+    deckNameTitle: {
         fontSize: 30,
         justifyContent: 'space-around'
     },
-    questionText: {
+    deckNameText: {
         alignSelf: 'stretch',
         height: 100
     },
