@@ -19,6 +19,19 @@ class Quiz extends React.Component {
         };
     }
     handleToggleShow = () => this.setState({showAnswer: !this.state.showAnswer});
+    handleCorrect = () => {
+        this.setState({
+            currentCardNumber: (this.state.currentCardNumber + 1),
+            totalScore: this.state.totalScore + 1,
+            showAnswer: false
+        });
+    }
+    handleUncorrect = () => {
+        this.setState({
+            currentCardNumber: (this.state.currentCardNumber + 1),
+            showAnswer: false
+        });
+    }
     render() {
         const { title, questions } = this.props;
         const { totalScore, currentCardNumber, showAnswer } = this.state;
@@ -94,6 +107,7 @@ class Quiz extends React.Component {
                                         >
                                             <TouchableOpacity
                                                 style={[ styles.btnCustom, styles.correctBtn]}
+                                                onPress={this.handleCorrect}
                                             >
                                                 <Text
                                                     style={styles.correctText}
@@ -103,6 +117,7 @@ class Quiz extends React.Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 style={[ styles.btnCustom, styles.errorBtn ]}
+                                                onPress={this.handleUncorrect}
                                             >
                                                 <Text
                                                     style={styles.errorText}
@@ -117,6 +132,7 @@ class Quiz extends React.Component {
                                         >
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                                onPress={this.handleCorrect}
                                             >
                                                 <View
                                                     style={[ styles.btnCustom, styles.correctBtn]}
@@ -130,6 +146,7 @@ class Quiz extends React.Component {
                                             </TouchableNativeFeedback>
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                                onPress={this.handleUncorrect}
                                             >
                                                 <View
                                                     style={[ styles.btnCustom, styles.errorBtn ]}
@@ -189,6 +206,7 @@ class Quiz extends React.Component {
                                         >
                                             <TouchableOpacity
                                                 style={[ styles.btnCustom, styles.correctBtn]}
+                                                onPress={this.handleCorrect}
                                             >
                                                 <Text
                                                     style={styles.correctText}
@@ -198,6 +216,7 @@ class Quiz extends React.Component {
                                             </TouchableOpacity>
                                             <TouchableOpacity
                                                 style={[ styles.btnCustom, styles.errorBtn ]}
+                                                onPress={this.handleUncorrect}
                                             >
                                                 <Text
                                                     style={styles.errorText}
@@ -212,6 +231,7 @@ class Quiz extends React.Component {
                                         >
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                                onPress={this.handleCorrect}
                                             >
                                                 <View
                                                     style={[ styles.btnCustom, styles.correctBtn]}
@@ -225,6 +245,7 @@ class Quiz extends React.Component {
                                             </TouchableNativeFeedback>
                                             <TouchableNativeFeedback
                                                 background={TouchableNativeFeedback.SelectableBackground()}
+                                                onPress={this.handleUncorrect}
                                             >
                                                 <View
                                                     style={[ styles.btnCustom, styles.errorBtn ]}
