@@ -7,6 +7,7 @@ import DeckList from './components/DeckList';
 import NewDeck from './components/NewDeck';
 import Deck from './components/Deck';
 import NewCard from './components/NewCard';
+import Quiz from './components/Quiz';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 import { MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { purple, white } from './utils/colors';
@@ -81,6 +82,15 @@ const FlashcardsNavigator = StackNavigator({
   },
   NewCard: {
     screen: NewCard,
+    navigationOptions: {
+      headerTintColor: white,
+      headerStyle: {
+        backgroundColor: purple,
+      }
+    }
+  },
+  Quiz: {
+    screen: Quiz,
     navigationOptions: {
       headerTintColor: white,
       headerStyle: {

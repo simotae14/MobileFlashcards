@@ -47,6 +47,7 @@ class Deck extends React.Component {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.btnCustom, styles.startBtn]}
+                                    onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
                                 >
                                     <Text
                                         style={styles.startQuizBtn}
@@ -73,6 +74,7 @@ class Deck extends React.Component {
                                 </TouchableNativeFeedback>
                                 <TouchableNativeFeedback
                                     background={TouchableNativeFeedback.SelectableBackground()}
+                                    onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
                                 >
                                     <View
                                         style={[styles.btnCustom, styles.startBtn]}
