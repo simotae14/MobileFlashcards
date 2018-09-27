@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, TouchableNativeFeedback, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { purple, red, green } from '../utils/colors';
+import PercentageCircle from 'react-native-percentage-circle';
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -38,13 +39,48 @@ class Quiz extends React.Component {
         const totalQuestions = questions.length;
 
         if (currentCardNumber > totalQuestions) {
+            const percentage = Math.round(totalScore * 100 / totalQuestions);
             return (
                 <View
-                    style={styles.container}
+                    style={styles.resultsContainer}
                 >
-                    <Text>
-                        Your Score for { title } deck is: { totalScore }/{ totalQuestions }
-                    </Text>
+                    <View>
+                        <Text
+                            style={styles.questionAnswerText}
+                        >
+                            Your Score for { title } deck is: { totalScore }/{ totalQuestions }
+                        </Text>
+                    </View>
+                    <View
+                        style={{
+                            marginTop: 20
+                        }}
+                    >
+                        <PercentageCircle
+                            radius={85}
+                            percent={percentage}
+                            color={percentage > 60 ? green : red}
+                            innerColor='#ffe'
+                            textStyle={{fontSize: 24, color: (percentage > 60 ? green : red)}}
+                        />
+                    </View>
+                    <View>
+                        {
+                            percentage > 60 ? (
+                                <Text
+                                    style={styles.questionAnswerText}
+                                >
+                                    Great work mate!!!! 👊
+                                </Text>
+                            ) : (
+                                <Text
+                                    style={styles.questionAnswerText}
+                                >
+                                    Dude, you need to study more!!!! 😟
+                                </Text>
+                            )
+                        }
+                    </View>
                 </View>
             );
         } else {
@@ -283,6 +319,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'space-between',
+        alignSelf: 'stretch',
+        backgroundColor: '#ffe',
+        alignItems: 'center',
+        minHeight: 350,
+        paddingLeft: 25,
+        paddingRight: 25
+    },
+    resultsContainer: {
+        flex: 1,
+        justifyContent: 'center',
         alignSelf: 'stretch',
         backgroundColor: '#ffe',
         alignItems: 'center',
