@@ -3,6 +3,7 @@ import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, Touchable
 import { connect } from 'react-redux';
 import { purple, red, green } from '../utils/colors';
 import PercentageCircle from 'react-native-percentage-circle';
+import { clearLocalNotification, setLocalNotification } from '../utils/notifications';
 
 class Quiz extends React.Component {
     constructor(props) {
@@ -40,6 +41,8 @@ class Quiz extends React.Component {
 
         if (currentCardNumber > totalQuestions) {
             const percentage = Math.round(totalScore * 100 / totalQuestions);
+            clearLocalNotification()
+                .then(setLocalNotification);
             return (
                 <View
                     style={styles.resultsContainer}
@@ -64,7 +67,11 @@ class Quiz extends React.Component {
                             textStyle={{fontSize: 24, color: (percentage > 60 ? green : red)}}
                         />
                     </View>
-                    <View>
+                    <View
+                        style={{
+                            marginBottom: 20
+                        }}
+                    >
                         {
                             percentage > 60 ? (
                                 <Text
@@ -76,10 +83,34 @@ class Quiz extends React.Component {
                                 <Text
                                     style={styles.questionAnswerText}
                                 >
-                                    Dude, you need to study more!!!! 😟
+                                    Dude, you need more study!!!! 😟
                                 </Text>
                             )
                         }
+                    </View>
+                    <View
+                        style={styles.btnWrapper}
+                    >
+                        <TouchableOpacity
+                            style={[ styles.btnCustom, styles.correctBtn]}
+                            onPress={() => this.props.navigation.navigate('Quiz', { title: this.props.title })}
+                        >
+                            <Text
+                                style={styles.correctText}
+                            >
+                                Restart
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[ styles.btnCustom, styles.errorBtn ]}
+                            onPress={() => this.props.navigation.navigate('Deck', { deck: this.props.deck } )}
+                        >
+                            <Text
+                                style={styles.errorText}
+                            >
+                                Go to Deck
+                            </Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             );
@@ -308,6 +339,7 @@ class Quiz extends React.Component {
 function mapStateToProps(state, props) {
     const { title } = props.navigation.state.params;
     return {
+        deck: state[title],
         questions: state[title].questions,
         title: title
     };

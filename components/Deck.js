@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Platform, TouchableOpacity, TouchableNativeFeedback, ScrollView } from 'react-native';
 import randomColor from 'randomcolor';
 import { lightPurp, orange } from '../utils/colors';
+import { connect } from 'react-redux';
 
 class Deck extends React.Component {
     static navigationOptions = ({ navigation }) => {
@@ -11,7 +12,7 @@ class Deck extends React.Component {
         };
     }
     render() {
-        const { deck } = this.props.navigation.state.params;
+        const { deck } = this.props;
         return (
             <View
                 style={styles.container}
@@ -28,7 +29,7 @@ class Deck extends React.Component {
                         <Text
                             style={styles.deckNumberCards}
                         >
-
+                            { deck.questions.length } cards
                         </Text>
                     </View>
 
@@ -48,6 +49,7 @@ class Deck extends React.Component {
                                 <TouchableOpacity
                                     style={[styles.btnCustom, styles.startBtn]}
                                     onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
+                                    disabled={deck.questions.length === 0}
                                 >
                                     <Text
                                         style={styles.startQuizBtn}
@@ -75,6 +77,7 @@ class Deck extends React.Component {
                                 <TouchableNativeFeedback
                                     background={TouchableNativeFeedback.SelectableBackground()}
                                     onPress={() => this.props.navigation.navigate('Quiz', { title: deck.title })}
+                                    disabled={deck.questions.length === 0}
                                 >
                                     <View
                                         style={[styles.btnCustom, styles.startBtn]}
@@ -95,7 +98,14 @@ class Deck extends React.Component {
     }
 }
 
-export default Deck;
+function mapStateToProps(state, props) {
+    const { deck } = props.navigation.state.params;
+    return {
+        deck: state[deck.title]
+    }
+}
+
+export default connect(mapStateToProps)(Deck);
 
 const styles = StyleSheet.create({
     container: {

@@ -1,11 +1,14 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TouchableNativeFeedback, Platform, Animated } from 'react-native';
 import { retrieveDecks } from '../actions';
 import { getDecks } from '../utils/decksStorageApi';
 import { connect } from 'react-redux';
 import randomColor from 'randomcolor';
 
 class DeckList extends React.Component {
+    state = {
+        bounceValue: new Animated.Value(1)
+    }
     componentDidMount() {
         const { dispatch } = this.props;
         // call the api to fetch data
@@ -15,6 +18,7 @@ class DeckList extends React.Component {
     // navigate to the
     render() {
         const { decks } = this.props;
+        const { bounceValue } = this.state;
         return (
             <View
                 style={styles.container}
@@ -26,30 +30,18 @@ class DeckList extends React.Component {
                                 Object.values(decks).map((deck) => {
                                     return Platform.OS === 'ios'
                                         ? (
-                                            <TouchableOpacity
+                                            <Animated.View
+                                                style={{ transform: [ { scale: bounceValue } ] }}
                                                 key={deck.title}
-                                                style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
-                                                onPress={() => this.props.navigation.navigate('Deck', { deck } )}
                                             >
-                                                <Text
-                                                    style={styles.deckText}
-                                                >
-                                                    { deck.title }
-                                                </Text>
-                                                <Text
-                                                    style={styles.deckNumberCards}
-                                                >
-                                                    { deck.questions.length } cards
-                                                </Text>
-                                            </TouchableOpacity>
-                                        ) : (
-                                            <TouchableNativeFeedback
-                                                key={deck.title}
-                                                background={TouchableNativeFeedback.SelectableBackground()}
-                                                onPress={() => this.props.navigation.navigate('Deck', { deck } )}
-                                            >
-                                                <View
+                                                <TouchableOpacity
                                                     style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
+                                                    onPress={() => {
+                                                        Animated.sequence([
+                                                            Animated.timing(this.state.bounceValue, { duration: 500, toValue: 1.04}),
+                                                            Animated.spring(this.state.bounceValue, { toValue: 1, friction: 4})
+                                                        ]).start(() => this.props.navigation.navigate('Deck', { deck } ));
+                                                    }}
                                                 >
                                                     <Text
                                                         style={styles.deckText}
@@ -61,8 +53,39 @@ class DeckList extends React.Component {
                                                     >
                                                         { deck.questions.length } cards
                                                     </Text>
-                                                </View>
-                                            </TouchableNativeFeedback>
+                                                </TouchableOpacity>
+                                            </Animated.View>
+                                        ) : (
+                                            <Animated.View
+                                                style={{ transform: [ { scale: bounceValue } ] }}
+                                                key={deck.title}
+                                            >
+                                                <TouchableNativeFeedback
+                                                    key={deck.title}
+                                                    background={TouchableNativeFeedback.SelectableBackground()}
+                                                    onPress={() => {
+                                                        Animated.sequence([
+                                                            Animated.timing(this.state.bounceValue, { duration: 500, toValue: 1.04}),
+                                                            Animated.spring(this.state.bounceValue, { toValue: 1, friction: 4})
+                                                        ]).start(() => this.props.navigation.navigate('Deck', { deck } ));
+                                                    }}
+                                                >
+                                                    <View
+                                                        style={[styles.deckItem, { backgroundColor: randomColor({ luminosity: 'dark' }) }]}
+                                                    >
+                                                        <Text
+                                                            style={styles.deckText}
+                                                        >
+                                                            { deck.title }
+                                                        </Text>
+                                                        <Text
+                                                            style={styles.deckNumberCards}
+                                                        >
+                                                            { deck.questions.length } cards
+                                                        </Text>
+                                                    </View>
+                                                </TouchableNativeFeedback>
+                                            </Animated.View>
                                         );
                                 })
                             }
